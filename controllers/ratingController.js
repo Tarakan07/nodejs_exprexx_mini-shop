@@ -27,11 +27,16 @@ class RatingController {
 			ApiError.badRequest("Error with rating");
 		}
 	}
-	async getOne() {}
+	async getOne(req, res, next) {
+		const { deviceId } = req.params;
+		const rating = await Rating.findAndCountAll({ where: { deviceId } });
+
+		return res.json({ rating: rating.count });
+	}
 	async delete(req, res) {
 		const { id } = req.params;
 		await Rating.destroy({ where: { id } });
-		return res.status(200).send("Type deleted successfully");
+		return res.status(200).send("Rating deleted successfully");
 	}
 }
 

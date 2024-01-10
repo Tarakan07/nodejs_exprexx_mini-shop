@@ -46,14 +46,18 @@ const DeviceInfo = sequelize.define("device_info", {
 const TypeBrand = sequelize.define("type_brand", {
 	id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 });
-
+const ExStat = sequelize.define("exnode_stat", {
+	id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+	uuid: { type: DataTypes.STRING, allowNull: false },
+	lastActive: { type: DataTypes.DATE },
+});
 User.hasOne(Basket);
 Basket.belongsTo(User);
 
 User.hasMany(Rating);
 Rating.belongsTo(User);
 
-Basket.hasMany(BasketDevice);
+Basket.hasMany(BasketDevice, { as: "basketUser" });
 BasketDevice.belongsTo(Basket);
 
 Type.hasMany(Device);
@@ -84,4 +88,5 @@ module.exports = {
 	Type,
 	TypeBrand,
 	Rating,
+	ExStat,
 };
